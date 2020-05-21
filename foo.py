@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
+import time
 
 smsURL = "https://www.fast2sms.com/dev/bulk"    #FAST2SMS for sms notification
 API_KEY = "3Qgitp2fNMEyqr4APUjlR1Twzn5eBuv97LXsVkDJxIG8bdKOaS2wRAOZGYitmao49xN7UTEW6czJIDSB"
@@ -52,13 +52,14 @@ def sendSms():
 	print(response)
 
 
-#old = initalSendReq()
-#now = initalSendReq()
+print("CUSAT exam result notification :")
+old = initalSendReq()
 
-"""
-update = compare(now, old)
-if update:
-	message = updateResult()
-	sendSms()
-"""
-print("hi")
+while True:
+	time.sleep(3)
+	now = initalSendReq()
+	update = compare(now, old)
+	if update:
+		message = updateResult()
+		sendSms()
+		old = now
