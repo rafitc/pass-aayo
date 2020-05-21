@@ -63,3 +63,4 @@ while True:
 		message = updateResult()
 		sendSms()
 		old = now
+
