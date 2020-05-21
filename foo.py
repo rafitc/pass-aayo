@@ -1,33 +1,64 @@
 import requests
 from bs4 import BeautifulSoup
-import re
 from datetime import datetime
 
-URL = 'http://results.cusat.ac.in/'
-page = requests.get(URL)
+smsURL = "https://www.fast2sms.com/dev/bulk"    #FAST2SMS for sms notification
+API_KEY = "3Qgitp2fNMEyqr4APUjlR1Twzn5eBuv97LXsVkDJxIG8bdKOaS2wRAOZGYitmao49xN7UTEW6czJIDSB"
+sendNump = "7907348448"	#To Number
 
-soup = BeautifulSoup(page.content, 'html.parser')
-tables = soup.find_all('ul')
-li = tables[1].get_text() #date string start from 131:145
-stringStart = li.find(':')
-dateOfPub = str(li[(stringStart+1):(stringStart+15)])
-pubDate = str(dateOfPub[0:2])
-splitDate = dateOfPub.split()
-pubMonth = str(splitDate[1])
-pubYear = str(splitDate[2])
-#print(pubDate)
-#print(pubMonth)
-#print(pubYear)
-s = pubYear,pubMonth,pubDate
-st = ' '.join(s)
-#print(st)
-d = datetime.strptime(st, '%Y %B %d')
-da = d.strftime('%Y-%m-%d')
 
-print(da)
-#nowDate = datetime.now()
+def initalSendReq():
+	URL = 'http://results.cusat.ac.in/'
+	page = requests.get(URL)
+	soup = BeautifulSoup(page.content, 'html.parser')
+	tables = soup.find_all('ul')
+	initialCount = len(tables)
+	return initialCount
 
-#print("now = ",nowDate,"last pubDate = ",lastPubDate)
-#covert into std format
 
-#dateOfPub = dateOfPub.split()
+def updateResult():
+	URL = 'http://results.cusat.ac.in/'
+	page = requests.get(URL)
+	soup = BeautifulSoup(page.content, 'html.parser')
+	tables = soup.find_all('ul')
+	message = tables[0].get_text()
+	print(tables[0].get_text())
+	return message
+
+
+def compare(currentCount, oldCount):
+	if(currentCount>oldCount):
+		print("Result Updated !")
+		update = True
+	else:
+		update = False
+		print("No updates !")
+	return update
+
+
+def sendSms():
+	querystring = {
+		"authorization": API_KEY,
+		"sender_id": "FSTSMS",
+		"message": message,
+		"language": "english",
+		"route": "p",
+		"numbers": sendNump
+	}
+	headers = {
+		'cache-control': "no-cache"
+	}
+	response = requests.request("GET",smsURL, headers=headers, params=querystring)
+	print(response)
+
+
+#old = initalSendReq()
+#now = initalSendReq()
+
+"""
+update = compare(now, old)
+if update:
+	message = updateResult()
+	sendSms()
+"""
+print("hi")
