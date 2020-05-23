@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 import time
 
 smsURL = "https://www.fast2sms.com/dev/bulk"    #FAST2SMS for sms notification
-API_KEY = "3Qgitp2fNMEyqr4APUjlR1Twzn5eBuv97LXsVkDJxIG8bdKOaS2wRAOZGYitmao49xN7UTEW6czJIDSB"
-sendNump = "7907348448"	#To Number
+API_KEY = "YourApiKey"
+sendNump = "SendNumber"	#To Number
 
 
 def initalSendReq():
