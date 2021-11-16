@@ -1,16 +1,21 @@
 import requests
 from bs4 import BeautifulSoup
 import time
+import os
 
-smsURL = "https://www.fast2sms.com/dev/bulk"    #FAST2SMS for sms notification
-API_KEY = "YourApiKey"
-sendNump = "SendNumber"	#To Number
+from dotenv import load_dotenv
+load_dotenv()
+
+smsURL = os.getenv('SMS_PROVIDER_URL')
+API_KEY = os.getenv('API_KEY')
+sendNump = os.getenv('TO_NUMBER')	#To Number
 
 
 def initalSendReq():
 	URL = 'http://results.cusat.ac.in/'
 	page = requests.get(URL)
 	soup = BeautifulSoup(page.content, 'html.parser')
+	print(soup)
 	tables = soup.find_all('ul')
 	initialCount = len(tables)
 	return initialCount
