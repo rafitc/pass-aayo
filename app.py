@@ -80,4 +80,4 @@ def start():
 
 # main driver function
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080)
+    app.run(debug=False, port=8090, host="0.0.0.0")
