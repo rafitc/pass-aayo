@@ -1,2 +1,1 @@
-web: python scrap.py
-worker: python scrap.py 
+web: gunicorn app:app
