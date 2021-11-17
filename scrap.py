@@ -12,7 +12,7 @@ sendNump = os.getenv('TO_NUMBER')	#To Number
 
 
 def initalSendReq():
-	URL = 'http://results.cusat.ac.in/'
+	URL = 'https://results.cusat.ac.in'
 	page = requests.get(URL)
 	soup = BeautifulSoup(page.content, 'html.parser')
 	print(soup)
@@ -22,7 +22,7 @@ def initalSendReq():
 
 
 def updateResult():
-	URL = 'http://results.cusat.ac.in/'
+	URL = 'https://results.cusat.ac.in/'
 	page = requests.get(URL)
 	soup = BeautifulSoup(page.content, 'html.parser')
 	tables = soup.find_all('ul')
