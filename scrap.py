@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import time
 import os
 import ssl
+from flask import Flask
+app = Flask(__name__)
 ssl._create_default_https_context = ssl._create_unverified_context
 
 from dotenv import load_dotenv
@@ -59,15 +61,26 @@ def sendSms():
 	print(response)
 
 
-print("CUSAT exam result notification :")
-old = initalSendReq()
+@app.route('/')
+def hello_world():
+    return 'Hello World'
 
-while True:
-	time.sleep(3)
-	now = initalSendReq()
-	update = compare(now, old)
-	if update:
-		message = updateResult()
-		sendSms()
-		old = now
+@app.route('/start')
+def start():
+	print("CUSAT exam result notification :")
+	old = initalSendReq()
+	while True:
+		time.sleep(3)
+		now = initalSendReq()
+		update = compare(now, old)
+		if update:
+			message = updateResult()
+			sendSms()
+			old = now
 
+# main driver function
+if __name__ == '__main__':
+ 
+    # run() method of Flask class runs the application
+    # on the local development server.
+    app.run()
