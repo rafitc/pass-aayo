@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import os
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -13,7 +15,7 @@ sendNump = os.getenv('TO_NUMBER')	#To Number
 
 def initalSendReq():
 	URL = 'https://results.cusat.ac.in'
-	page = requests.get(URL)
+	page = requests.get(URL, verify=False)
 	soup = BeautifulSoup(page.content, 'html.parser')
 	print(soup)
 	tables = soup.find_all('ul')
@@ -22,8 +24,8 @@ def initalSendReq():
 
 
 def updateResult():
-	URL = 'https://results.cusat.ac.in/'
-	page = requests.get(URL)
+	URL = 'http://results.cusat.ac.in/'
+	page = requests.get(URL, verify=False)
 	soup = BeautifulSoup(page.content, 'html.parser')
 	tables = soup.find_all('ul')
 	message = tables[0].get_text()

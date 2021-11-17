@@ -1,30 +1,12 @@
-import os
-import ssl                                        
-openssl_dir, openssl_cafile = os.path.split(      
-    ssl.get_default_verify_paths().openssl_cafile)
-# no content in this folder
-os.listdir(openssl_dir)
-# non existent file
-print(os.path.exists(os.path.join(openssl_dir, openssl_cafile)))
+import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
-import platform
-# ...
+URL = 'https://results.cusat.ac.in'
+session = requests.Session()
+retry = Retry(connect=3, backoff_factor=0.5)
+adapter = HTTPAdapter(max_retries=retry)
+session.mount('http://', adapter)
+session.mount('https://', adapter)
 
-ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-ssl_context.verify_mode = ssl.CERT_REQUIRED
-ssl_context.check_hostname = True
-ssl_context.load_default_certs()
-
-if platform.system().lower() == 'darwin':
-    import certifi
-    ssl_context.load_verify_locations(
-        cafile=os.path.relpath(certifi.where()),
-        capath=None,
-        cadata=None)
-
-import urllib.request
-# previous context
-https_handler = urllib.request.HTTPSHandler(context=ssl_context)
-url = "http://results.cusat.ac.in"
-opener = urllib.request.build_opener(https_handler)
-ret = opener.open(url, timeout=2)
+print(session.get(URL))
