@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 import time
 import os
 import ssl
-from flask import Flask
-app = Flask(__name__)
+# from flask import Flask
+# app = Flask(__name__)
 ssl._create_default_https_context = ssl._create_unverified_context
 
 from dotenv import load_dotenv
@@ -61,11 +61,13 @@ def sendSms():
 	print(response)
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello World'
+# @app.route('/')
+# def hello_world():
+#     return 'Hello World'
 
-@app.route('/start')
+# @app.route('/start')
+
+
 def start():
 	print("CUSAT exam result notification :")
 	old = initalSendReq()
@@ -78,6 +80,7 @@ def start():
 			sendSms()
 			old = now
 
+start()
 # main driver function
-if __name__ == '__main__':
-    app.run(debug=False, port=8090, host="0.0.0.0")
+# if __name__ == '__main__':
+#     app.run(debug=False, port=8090, host="0.0.0.0")
